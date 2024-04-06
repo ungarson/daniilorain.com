@@ -5,15 +5,10 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Daniil Orain's profile picture" class="logo" src="@/assets/daniilorain.jpeg" width="320" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      <HelloWorld />
     </div>
   </header>
 
@@ -22,6 +17,9 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <style scoped>
 header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   line-height: 1.5;
   max-height: 100vh;
 }
@@ -58,8 +56,6 @@ nav a:first-of-type {
 
 @media (min-width: 1024px) {
   header {
-    display: flex;
-    place-items: center;
     padding-right: calc(var(--section-gap) / 2);
   }
 
@@ -71,6 +67,7 @@ nav a:first-of-type {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+    margin-top: 1rem;
   }
 
   nav {
