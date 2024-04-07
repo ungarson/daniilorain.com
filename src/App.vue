@@ -1,17 +1,23 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import {RouterView, useRoute} from 'vue-router'
+import { computed } from 'vue';
+
+const route = useRoute();
+
+const showHeader = computed(() => {
+  const allowedRoutes = ['/', '/contact'];
+  return allowedRoutes.includes(route.path);
+});
 </script>
 
 <template>
-  <header>
+  <header v-if="showHeader">
     <img alt="Daniil Orain's profile picture" class="logo" src="@/assets/daniilorain.jpeg" width="320" />
-
-    <div class="wrapper">
-      <HelloWorld />
-    </div>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/contact">Contacts</RouterLink>
+    </nav>
   </header>
-
   <RouterView />
 </template>
 
