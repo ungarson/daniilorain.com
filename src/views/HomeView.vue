@@ -12,7 +12,7 @@
         <li>
           <a href="https://orain.school/?utm_source=daniiloraincom" class="underline decoration-dashed" title="It's a Russian-language online school where I teach people how to do YouTube" target="_blank">Онлайн-школа ютьюбинга Даниила Ораина</a>
         </li>
-        <RouterLink to="/translator">Authoritarian translator</RouterLink>
+        <RouterLink to="/translator">Authoritarian dictionary</RouterLink>
       </ul>
     </div>
 
