@@ -3,6 +3,8 @@ import {nextTick, ref, watch} from 'vue';
 import TranslatorMeta from "@/components/Translator/TranslatorMeta.vue";
 import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
 import {useRoute} from "vue-router";
+import Disqus from "@/components/Comments/Disqus.vue";
+
 const dictionary = ref(null);
 const metadata = ref(null);
 
@@ -45,14 +47,15 @@ watch(dictionary, (newVal) => {
 </script>
 
 <template>
-  <div class="card m-3">
-    <div class="card-body mt-3">
-      <div v-if="dictionary">
-        <h2 class="text-4xl font-bold">Dictionary</h2>
-        <div class="dictionary-wrapper">
-          <ul v-for="(_, letter) in dictionary" :key="letter" class="mb-0 mt-3 letter-wrapper">
-            <h2 class="text-2xl font-black">{{filterLetter(letter)}}</h2>
-            <li v-for="(info, theWord) in dictionary[letter]" :key="theWord.word_key">
+  <div class="d-flex">
+    <div class="card m-3">
+      <div class="card-body mt-3">
+        <div v-if="dictionary">
+          <h2 class="text-4xl font-bold">Dictionary</h2>
+          <div class="dictionary-wrapper">
+            <ul v-for="(_, letter) in dictionary" :key="letter" class="mb-0 mt-3 letter-wrapper">
+              <h2 class="text-2xl font-black">{{filterLetter(letter)}}</h2>
+              <li v-for="(info, theWord) in dictionary[letter]" :key="theWord.word_key">
               <span
                 class="font-bold hover:underline hover:cursor-default selectable-span"
                 :id="info.word_key"
@@ -60,18 +63,22 @@ watch(dictionary, (newVal) => {
               >
                 {{theWord}}
               </span>
-              <span>
+                <span>
                 –
               </span>
-              <ValuesWrapper :info="info" />
-            </li>
-          </ul>
+                <ValuesWrapper :info="info" />
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div v-if="!dictionary" class="text-center">
+          <div class="spinner-border spinner-border-sm"></div>
         </div>
       </div>
-      <TranslatorMeta class="mt-3" :metadata="metadata" />
-      <div v-if="!dictionary" class="text-center">
-        <div class="spinner-border spinner-border-sm"></div>
-      </div>
+    </div>
+    <TranslatorMeta class="mt-6" :metadata="metadata" />
+    <div class="card mt-6">
+      <Disqus/>
     </div>
   </div>
 </template>
