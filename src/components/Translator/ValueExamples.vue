@@ -13,7 +13,7 @@ const { examples } = props;
     <ul v-for="example in examples">
       <li>
         <p>
-          <span class="text-red-500">Bullshit:</span>&nbsp;
+          <span class="error-text">Bullshit:</span>&nbsp;
           <span class="explanation">{{ example['fake'] }}</span>
         </p>
         <p>

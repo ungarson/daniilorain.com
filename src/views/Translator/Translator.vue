@@ -17,6 +17,16 @@ function filterLetter(letter) {
   if (letter === "NA") return '...';
   return letter;
 }
+function navigateToAnchorsLetter(id) {
+  const letter = document.getElementById(id).closest('.letter-wrapper');
+  if (letter) {
+    history.pushState(null, null, `#${id}`);
+    window.scrollTo({
+      top: letter.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+}
 </script>
 
 <template>
@@ -25,10 +35,14 @@ function filterLetter(letter) {
       <div v-if="dictionary">
         <h2 class="text-4xl font-bold">Dictionary</h2>
         <div class="dictionary-wrapper">
-          <ul v-for="(_, letter) in dictionary" :key="letter" class="mb-0 mt-3">
+          <ul v-for="(_, letter) in dictionary" :key="letter" class="mb-0 mt-3 letter-wrapper">
             <h2 class="text-2xl font-black">{{filterLetter(letter)}}</h2>
-            <li v-for="(info, theWord) in dictionary[letter]" :key="theWord.id">
-              <span class="font-bold">
+            <li v-for="(info, theWord) in dictionary[letter]" :key="theWord.word_key">
+              <span
+                class="font-bold hover:underline hover:cursor-default selectable-span"
+                :id="info.word_key"
+                @click="navigateToAnchorsLetter(info.word_key)"
+              >
                 {{theWord}}
               </span>
               <span>
@@ -50,5 +64,18 @@ function filterLetter(letter) {
 <style scoped>
 .dictionary-wrapper {
   margin-top: 3rem;
+}
+.selectable-span {
+  position: relative;
+}
+.selectable-span:hover::before {
+  position: absolute;
+  content: "";
+  display: inline-block;
+  background: url("../../assets/hash-icon.png") center / contain no-repeat;
+  width: 10px;  /* adjust as necessary */
+  height: 10px;  /* adjust as necessary */
+  left: -12px;
+  bottom: 3px;
 }
 </style>
