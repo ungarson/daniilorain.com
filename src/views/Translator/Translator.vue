@@ -4,11 +4,19 @@ import TranslatorMeta from "@/components/Translator/TranslatorMeta.vue";
 import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
 import {useRoute} from "vue-router";
 import Disqus from "@/components/Translator/Comments/Disqus.vue";
+import Help from "@/components/Translator/Help.vue";
 
 const dictionary = ref(null);
 const metadata = ref(null);
 
 const route = useRoute();
+
+watch(
+  () => route.params.dynamicSegment,
+  (newPath) => {
+    console.log(`newPath: `, newPath);
+  }
+)
 
 fetch(`${import.meta.env.VITE_SERVER}authoritarian_dictionary`)
   .then(response => response.json())
@@ -48,10 +56,14 @@ watch(dictionary, (newVal) => {
 
 <template>
   <div class="d-flex">
-    <div class="card m-3">
+    <div class="card m-3 translator-body">
       <div class="card-body mt-3">
         <div v-if="dictionary">
-          <h2 class="text-4xl font-bold">Dictionary</h2>
+          <h2>
+            <span class="text-4xl font-bold">Dictionary</span>
+            <span class="text-xl italic">of a dictator</span>
+          </h2>
+          <Help />
           <div class="dictionary-wrapper">
             <ul v-for="(_, letter) in dictionary" :key="letter" class="mb-0 mt-3 letter-wrapper">
               <h2 class="text-2xl font-black">{{filterLetter(letter)}}</h2>
@@ -84,6 +96,9 @@ watch(dictionary, (newVal) => {
 </template>
 
 <style scoped>
+.translator-body {
+  margin-top: 6rem;
+}
 .dictionary-wrapper {
   margin-top: 3rem;
 }

@@ -3,10 +3,13 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{vue,js}",
+    'node_modules/preline/dist/*.js',
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('preline/plugin'),
+  ],
 }
 
