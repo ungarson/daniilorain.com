@@ -11,7 +11,7 @@ const { metadata } = defineProps({ metadata: 'Object' });
       Last updated: {{ metadata["last_updated"] }};
     </p>
     <p class="text-gray-700 text-sm">
-      Maintainer: {{ metadata["maintainer"] }}.
+      Contributors: {{ metadata["maintainer"] }}.
     </p>
   </div>
 </template>

@@ -9,16 +9,16 @@ const { examples } = props;
 </script>
 
 <template>
-  <div class="bg-gray-700 p-1.5">
+  <div class="wrapper p-1.5">
     <ul v-for="example in examples">
       <li>
         <p>
-          <span class="text-red-500">Bullshit:</span>
-          {{ example['fake'] }}
+          <span class="text-red-500">Bullshit:</span>&nbsp;
+          <span class="explanation">{{ example['fake'] }}</span>
         </p>
         <p>
           <span class="text-green-500">Truth: </span>
-          {{ example['real'] }}
+          <span class="explanation">{{ example['real'] }}</span>
         </p>
       </li>
     </ul>
@@ -26,5 +26,10 @@ const { examples } = props;
 </template>
 
 <style scoped>
-
+.wrapper {
+  background-color: var(--vt-c-indigo);
+}
+.wrapper .explanation {
+  color: var(--vt-c-text-dark-2);
+}
 </style>

@@ -14,7 +14,7 @@ const { values } = defineProps({ values: 'Object' });
     >
       <span>–&nbsp;</span>
       <Value
-        :key="nestedValues.id"
+        :key="nestedValues.key"
         :info="nestedValues"
       />
     </div>

@@ -14,13 +14,13 @@ const openExample = ref(new Set());
 <template>
   <span>
     <span
-      @click="info.examples ? openExample.toggle(info.id) : null"
+      @click="info.examples ? openExample.toggle(info.key) : null"
       :class="info.examples ? 'exampled-value cursor-help' : ''"
+      v-html="info.value"
     >
-      {{info.value}}
     </span>
     <ValueExamples
-      v-if="openExample.has(info.id)"
+      v-if="openExample.has(info.key)"
       :examples="info.examples"
     />
   </span>
