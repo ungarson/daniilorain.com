@@ -3,7 +3,7 @@ import {nextTick, ref, watch} from 'vue';
 import TranslatorMeta from "@/components/Translator/TranslatorMeta.vue";
 import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
 import {useRoute} from "vue-router";
-import Disqus from "@/components/Comments/Disqus.vue";
+import Disqus from "@/components/Translator/Comments/Disqus.vue";
 
 const dictionary = ref(null);
 const metadata = ref(null);
