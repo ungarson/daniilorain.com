@@ -1,9 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import {nextTick, ref, watch} from 'vue';
 import TranslatorMeta from "@/components/Translator/TranslatorMeta.vue";
 import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
+import {useRoute} from "vue-router";
 const dictionary = ref(null);
 const metadata = ref(null);
+
+const route = useRoute();
+
 fetch(`${import.meta.env.VITE_SERVER}authoritarian_dictionary`)
   .then(response => response.json())
   .then(data => {
@@ -17,6 +21,7 @@ function filterLetter(letter) {
   if (letter === "NA") return '...';
   return letter;
 }
+
 function navigateToAnchorsLetter(id) {
   const letter = document.getElementById(id).closest('.letter-wrapper');
   if (letter) {
@@ -27,6 +32,16 @@ function navigateToAnchorsLetter(id) {
     });
   }
 }
+
+watch(dictionary, (newVal) => {
+  if (newVal) {
+    nextTick(() => {
+      if (route.hash) {
+        navigateToAnchorsLetter(route.hash.slice(1));
+      }
+    });
+  }
+}, { immediate: true });
 </script>
 
 <template>
