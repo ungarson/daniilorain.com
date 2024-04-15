@@ -5,27 +5,47 @@ import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
 import {useRoute} from "vue-router";
 import Disqus from "@/components/Translator/Comments/Disqus.vue";
 import Help from "@/components/Translator/Help.vue";
+import {DEFAULT_TRANSLATOR_LANG} from "@/constants/DEFAULTS.js";
 
 const dictionary = ref(null);
 const metadata = ref(null);
+const interfaceText = ref(null);
 
 const route = useRoute();
+
+const dynamicSegment = route.params.dynamicSegment || DEFAULT_TRANSLATOR_LANG;
+
+function update(lang) {
+  updateInterface(lang).then(() => updateTranslator(lang));
+}
+
+async function updateInterface(lang) {
+  return fetch(`${import.meta.env.VITE_SERVER}translator_interface?lang=${lang}`)
+    .then(response => response.json())
+    .then(data => {
+      return interfaceText.value = data;
+    });
+}
+
+async function updateTranslator(lang) {
+  return fetch(`${import.meta.env.VITE_SERVER}authoritarian_dictionary?lang=${lang}`)
+    .then(response => response.json())
+    .then(data => {
+      metadata.value = data.meta;
+      let dataWithoutMeta = {...data};
+      delete dataWithoutMeta.meta;
+      return dictionary.value = dataWithoutMeta;
+    });
+}
 
 watch(
   () => route.params.dynamicSegment,
   (newPath) => {
-    console.log(`newPath: `, newPath);
+    update(newPath);
   }
 )
 
-fetch(`${import.meta.env.VITE_SERVER}authoritarian_dictionary`)
-  .then(response => response.json())
-  .then(data => {
-    metadata.value = data.meta;
-    let dataWithoutMeta = {...data};
-    delete dataWithoutMeta.meta;
-    return dictionary.value = dataWithoutMeta;
-  });
+update(dynamicSegment);
 
 function filterLetter(letter) {
   if (letter === "NA") return '...';
@@ -58,12 +78,12 @@ watch(dictionary, (newVal) => {
   <div class="d-flex">
     <div class="card m-3 translator-body">
       <div class="card-body mt-3">
-        <div v-if="dictionary">
+        <div v-if="dictionary && interfaceText">
           <h2>
-            <span class="text-4xl font-bold">Dictionary</span>
-            <span class="text-xl italic">of a dictator</span>
+            <span class="text-4xl font-bold">{{ interfaceText.headline }}</span>
+            <span class="text-xl italic">{{ interfaceText.headline_small }}</span>
           </h2>
-          <Help />
+          <Help :interface-text="interfaceText" />
           <div class="dictionary-wrapper">
             <ul v-for="(_, letter) in dictionary" :key="letter" class="mb-0 mt-3 letter-wrapper">
               <h2 class="text-2xl font-black">{{filterLetter(letter)}}</h2>
@@ -88,7 +108,11 @@ watch(dictionary, (newVal) => {
         </div>
       </div>
     </div>
-    <TranslatorMeta class="mt-6" :metadata="metadata" />
+    <TranslatorMeta
+      :interface-text="interfaceText"
+      class="mt-6"
+      :metadata="metadata"
+    />
     <div class="card mt-6">
       <Disqus/>
     </div>

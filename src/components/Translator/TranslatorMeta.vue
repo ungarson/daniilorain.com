@@ -1,7 +1,10 @@
 <script setup>
 import { defineProps } from 'vue';
 
-const { metadata } = defineProps({ metadata: 'Object' });
+const { metadata, interfaceText } = defineProps({
+  metadata: 'Object',
+  interfaceText: 'Object',
+});
 
 </script>
 
@@ -17,7 +20,7 @@ const { metadata } = defineProps({ metadata: 'Object' });
       </div>
       <div class="ms-3">
         <h3 class="text-gray-800 font-semibold dark:text-white">
-          Last updated: 14 April, 2024
+          {{ interfaceText.lastUpdated }}: 14 April, 2024
         </h3>
       </div>
     </div>
@@ -33,7 +36,7 @@ const { metadata } = defineProps({ metadata: 'Object' });
       </div>
       <div class="ms-3">
         <h3 class="text-gray-800 font-semibold dark:text-white">
-          Contributors: {{ metadata["maintainer"] }}
+          {{ interfaceText.Contributors }}: {{ metadata["maintainer"] }}
         </h3>
       </div>
     </div>
