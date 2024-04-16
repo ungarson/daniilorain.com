@@ -6,15 +6,16 @@ import { defineProps } from 'vue';
 
 const props = defineProps({
   info: Object,
+  interfaceText: Object,
 });
 
-const { info } = props;
+const { info, interfaceText } = props;
 </script>
 
 <template>
   <span>
-    <ManyValues v-if="info.values" :values="info.values" />
-    <Value v-else :info="info" />
+    <ManyValues v-if="info.values" :values="info.values" :interface-text="interfaceText" />
+    <Value v-else :info="info" :interface-text="interfaceText" />
   </span>
 </template>
 

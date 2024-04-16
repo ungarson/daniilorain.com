@@ -5,9 +5,10 @@ import {defineProps, ref} from 'vue';
 
 const props = defineProps({
   info: Object,
+  interfaceText: Object,
 });
 
-const { info } = props;
+const { info, interfaceText } = props;
 const openExample = ref(new Set());
 </script>
 
@@ -22,6 +23,7 @@ const openExample = ref(new Set());
     <ValueExamples
       v-if="openExample.has(info.key)"
       :examples="info.examples"
+      :interface-text="interfaceText"
     />
   </span>
 </template>

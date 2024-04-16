@@ -2,7 +2,16 @@
 import { defineProps } from 'vue';
 import Value from "@/components/Translator/Value.vue";
 
-const { values } = defineProps({ values: 'Object' });
+const { values, interfaceText } = defineProps({
+  values: {
+    type: Object,
+    required: true,
+  },
+  interfaceText: {
+    type: Object,
+    required: true,
+  }
+});
 </script>
 
 <template>
@@ -16,6 +25,7 @@ const { values } = defineProps({ values: 'Object' });
       <Value
         :key="nestedValues.key"
         :info="nestedValues"
+        :interface-text
       />
     </div>
   </span>

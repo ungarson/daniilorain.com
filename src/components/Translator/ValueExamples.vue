@@ -3,9 +3,10 @@ import { defineProps } from 'vue';
 
 const props = defineProps({
   examples: Array,
+  interfaceText: Object,
 });
 
-const { examples } = props;
+const { examples, interfaceText } = props;
 </script>
 
 <template>
@@ -13,11 +14,11 @@ const { examples } = props;
     <ul v-for="example in examples">
       <li>
         <p>
-          <span class="error-text">Bullshit:</span>&nbsp;
+          <span class="error-text">{{ interfaceText?.value.Bullshit }}:</span>&nbsp;
           <span class="explanation">{{ example['fake'] }}</span>
         </p>
         <p>
-          <span class="text-green-500">Truth: </span>
+          <span class="text-green-500">{{ interfaceText?.value.Truth }}: </span>
           <span class="explanation">{{ example['real'] }}</span>
         </p>
       </li>

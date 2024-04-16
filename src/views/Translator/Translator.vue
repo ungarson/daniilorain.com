@@ -8,8 +8,12 @@ import Help from "@/components/Translator/Help.vue";
 import {DEFAULT_TRANSLATOR_LANG} from "@/constants/DEFAULTS.js";
 
 const dictionary = ref(null);
-const metadata = reactive({});
-const interfaceText = reactive({});
+const metadata = reactive({
+  value: {},
+});
+const interfaceText = reactive({
+  value: {}
+});
 
 const route = useRoute();
 
@@ -80,7 +84,7 @@ watch(dictionary, (newVal) => {
       <div class="card-body mt-3">
         <div v-if="dictionary && interfaceText">
           <h2>
-            <span class="text-4xl font-bold">{{ interfaceText.value.headline }}</span>
+            <span class="text-4xl font-bold">{{ interfaceText.value.headline }}&nbsp;</span>
             <span class="text-xl italic">{{ interfaceText.value.headline_small }}</span>
           </h2>
           <Help :interface-text="interfaceText" />
@@ -98,7 +102,7 @@ watch(dictionary, (newVal) => {
                 <span>
                 –
               </span>
-                <ValuesWrapper :info="info" />
+                <ValuesWrapper :info="info" :interface-text="interfaceText" />
               </li>
             </ul>
           </div>
