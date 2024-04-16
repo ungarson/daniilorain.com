@@ -17,7 +17,7 @@ const interfaceText = reactive({
 
 const route = useRoute();
 
-const dynamicSegment = route.params.dynamicSegment || DEFAULT_TRANSLATOR_LANG;
+const dynamicSegment = ref(route.params.dynamicSegment || DEFAULT_TRANSLATOR_LANG);
 
 function update(lang) {
   updateInterface(lang).then(() => updateTranslator(lang)).then(() => nextTick());
@@ -45,14 +45,15 @@ async function updateTranslator(lang) {
 watch(
   () => route.params.dynamicSegment,
   (newPath) => {
+    dynamicSegment.value = newPath;
     update(newPath);
   }
 )
 
-update(dynamicSegment);
+update(dynamicSegment.value);
 
 function filterLetter(letter) {
-  if (letter === "NA") return '...';
+  if (letter === interfaceText.value.NotAssigned) return '...';
   return letter;
 }
 
@@ -89,7 +90,7 @@ watch(dictionary, (newVal) => {
           </h2>
           <Help :interface-text="interfaceText" />
           <div class="dictionary-wrapper">
-            <ul v-for="(_, letter) in dictionary" :key="letter" class="mb-0 mt-3 letter-wrapper">
+            <ul v-for="(_, letter) in dictionary" :key="letter + dynamicSegment" class="mb-0 mt-3 letter-wrapper">
               <h2 class="text-2xl font-black">{{filterLetter(letter)}}</h2>
               <li v-for="(info, theWord) in dictionary[letter]" :key="theWord.word_key">
               <span
@@ -102,7 +103,10 @@ watch(dictionary, (newVal) => {
                 <span>
                 –
               </span>
-                <ValuesWrapper :info="info" :interface-text="interfaceText" />
+                <ValuesWrapper
+                  :info="info"
+                  :interface-text="interfaceText"
+                />
               </li>
             </ul>
           </div>
