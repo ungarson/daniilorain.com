@@ -1,5 +1,5 @@
 <script setup>
-import {nextTick, ref, watch} from 'vue';
+import {nextTick, reactive, ref, watch} from 'vue';
 import TranslatorMeta from "@/components/Translator/TranslatorMeta.vue";
 import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
 import {useRoute} from "vue-router";
@@ -8,34 +8,34 @@ import Help from "@/components/Translator/Help.vue";
 import {DEFAULT_TRANSLATOR_LANG} from "@/constants/DEFAULTS.js";
 
 const dictionary = ref(null);
-const metadata = ref(null);
-const interfaceText = ref(null);
+const metadata = reactive({});
+const interfaceText = reactive({});
 
 const route = useRoute();
 
 const dynamicSegment = route.params.dynamicSegment || DEFAULT_TRANSLATOR_LANG;
 
 function update(lang) {
-  updateInterface(lang).then(() => updateTranslator(lang));
+  updateInterface(lang).then(() => updateTranslator(lang)).then(() => nextTick());
 }
 
 async function updateInterface(lang) {
-  return fetch(`${import.meta.env.VITE_SERVER}translator_interface?lang=${lang}`)
-    .then(response => response.json())
-    .then(data => {
-      return interfaceText.value = data;
-    });
+  const data = await fetch(`${import.meta.env.VITE_SERVER}translator_interface?lang=${lang}`)
+    .then(response => response.json());
+
+  return interfaceText.value = data;
 }
 
 async function updateTranslator(lang) {
-  return fetch(`${import.meta.env.VITE_SERVER}authoritarian_dictionary?lang=${lang}`)
-    .then(response => response.json())
-    .then(data => {
-      metadata.value = data.meta;
-      let dataWithoutMeta = {...data};
-      delete dataWithoutMeta.meta;
-      return dictionary.value = dataWithoutMeta;
-    });
+  const data = await fetch(`${import.meta.env.VITE_SERVER}authoritarian_dictionary?lang=${lang}`)
+    .then(response => response.json());
+
+  const metadataVal = data.meta;
+  let dataWithoutMeta = {...data};
+  delete dataWithoutMeta.meta;
+
+  dictionary.value = dataWithoutMeta;
+  return metadata.value = metadataVal;
 }
 
 watch(
@@ -80,8 +80,8 @@ watch(dictionary, (newVal) => {
       <div class="card-body mt-3">
         <div v-if="dictionary && interfaceText">
           <h2>
-            <span class="text-4xl font-bold">{{ interfaceText.headline }}</span>
-            <span class="text-xl italic">{{ interfaceText.headline_small }}</span>
+            <span class="text-4xl font-bold">{{ interfaceText.value.headline }}</span>
+            <span class="text-xl italic">{{ interfaceText.value.headline_small }}</span>
           </h2>
           <Help :interface-text="interfaceText" />
           <div class="dictionary-wrapper">
@@ -109,7 +109,7 @@ watch(dictionary, (newVal) => {
       </div>
     </div>
     <TranslatorMeta
-      :interface-text="interfaceText"
+      :interface-text=interfaceText
       class="mt-6"
       :metadata="metadata"
     />

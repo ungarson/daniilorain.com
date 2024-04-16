@@ -1,11 +1,18 @@
 <script setup>
-import { defineProps } from 'vue';
+import {computed, defineProps, watch} from 'vue';
 
-const { metadata, interfaceText } = defineProps({
-  metadata: 'Object',
-  interfaceText: 'Object',
+const props = defineProps({
+  metadata: {
+    type: Object,
+    required: true,
+  },
+  interfaceText: {
+    type: Object,
+    required: true,
+  },
 });
 
+const { metadata, interfaceText } = props;
 </script>
 
 <template>
@@ -20,7 +27,7 @@ const { metadata, interfaceText } = defineProps({
       </div>
       <div class="ms-3">
         <h3 class="text-gray-800 font-semibold dark:text-white">
-          {{ interfaceText.lastUpdated }}: 14 April, 2024
+          {{ interfaceText.value.lastUpdated }}: {{ metadata.value["last_updated"] }}
         </h3>
       </div>
     </div>
@@ -36,7 +43,7 @@ const { metadata, interfaceText } = defineProps({
       </div>
       <div class="ms-3">
         <h3 class="text-gray-800 font-semibold dark:text-white">
-          {{ interfaceText.Contributors }}: {{ metadata["maintainer"] }}
+          {{ interfaceText.value.Contributors }}: {{ metadata.value["maintainer"] }}
         </h3>
       </div>
     </div>
