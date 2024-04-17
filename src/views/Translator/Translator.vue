@@ -137,7 +137,7 @@ const isLoaded = computed(() => dictionary);
 
 <style scoped>
 .translator-body {
-  margin-top: 6rem;
+  margin-top: 3rem;
   width: 100%;
 }
 .dictionary-wrapper {

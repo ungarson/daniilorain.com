@@ -39,7 +39,7 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
-  --color-highlight-text: var(--vt-c-text-light-1);
+  --color-highlight-text: hsla(160, 100%, 37%, 1);
 
   --section-gap: 160px;
 }

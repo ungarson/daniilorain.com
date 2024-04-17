@@ -16,7 +16,7 @@ const { metadata, interfaceText } = props;
 </script>
 
 <template>
-  <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4 dark:bg-gray-800 dark:border-gray-700" role="alert">
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4 dark:bg-black-soft dark:border-gray-700" role="alert">
     <div class="flex">
       <div class="flex-shrink-0">
         <svg class="flex-shrink-0 size-4 text-blue-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -32,7 +32,7 @@ const { metadata, interfaceText } = props;
       </div>
     </div>
   </div>
-  <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4 dark:bg-gray-800 dark:border-gray-700 mt-2" role="alert">
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4 dark:bg-black-soft dark:border-gray-700 mt-2" role="alert">
     <div class="flex">
       <div class="flex-shrink-0">
         <svg class="flex-shrink-0 size-4 text-blue-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
