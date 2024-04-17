@@ -54,7 +54,7 @@ watch(
 update(dynamicSegment.value);
 
 function filterLetter(letter) {
-  if (letter === interfaceText.value.NotAssigned) return interfaceText.text.theRestLetters;
+  if (letter === interfaceText.value.NotAssigned) return interfaceText.value.theRestLetters;
   return letter;
 }
 
