@@ -3,6 +3,10 @@ import { defineProps } from 'vue';
 
 const props = defineProps({
   examples: Array,
+  remark: {
+    type: String,
+    required: false,
+  },
   interfaceText: Object,
 });
 
@@ -23,6 +27,14 @@ const { examples, interfaceText } = props;
         </p>
       </li>
     </ul>
+    <p v-if="remark">
+      <span class="text-orange-400">
+        {{ interfaceText?.value.GoodToKnow }}:
+      </span>
+      <span>
+        {{ remark }}
+      </span>
+    </p>
   </div>
 </template>
 

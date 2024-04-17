@@ -1,7 +1,7 @@
 <script setup>
 
 import ValueExamples from "@/components/Translator/ValueExamples.vue";
-import {defineProps, ref} from 'vue';
+import {computed, defineProps, ref} from 'vue';
 
 const props = defineProps({
   info: Object,
@@ -10,19 +10,22 @@ const props = defineProps({
 
 const { info, interfaceText } = props;
 const openExample = ref(new Set());
+
+const showExamples = computed(() => info.examples || info.remark);
 </script>
 
 <template>
   <span>
     <span
-      @click="info.examples ? openExample.toggle(info.key) : null"
-      :class="info.examples ? 'exampled-value cursor-help' : ''"
+      @click="showExamples ? openExample.toggle(info.key) : null"
+      :class="showExamples ? 'exampled-value cursor-help' : ''"
       v-html="info.value"
     >
     </span>
     <ValueExamples
       v-if="openExample.has(info.key)"
       :examples="info.examples"
+      :remark="info.remark"
       :interface-text="interfaceText"
     />
   </span>
