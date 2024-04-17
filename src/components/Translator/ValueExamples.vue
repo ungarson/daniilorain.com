@@ -22,7 +22,7 @@ const { examples, interfaceText } = props;
           <span class="explanation">{{ example['fake'] }}</span>
         </p>
         <p>
-          <span class="text-green-500">{{ interfaceText?.value.Truth }}: </span>
+          <span class="green">{{ interfaceText?.value.Truth }}: </span>
           <span class="explanation">{{ example['real'] }}</span>
         </p>
       </li>
