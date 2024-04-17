@@ -20,8 +20,14 @@ const route = useRoute();
 const hash = ref(route.hash);
 const dynamicSegment = ref(route.params.dynamicSegment || DEFAULT_TRANSLATOR_LANG);
 
+const isLoadingData = ref(false);
+
 function update(lang) {
-  updateInterface(lang).then(() => updateTranslator(lang)).then(() => nextTick());
+  isLoadingData.value = true;
+  updateInterface(lang).then(() => updateTranslator(lang)).then(() => {
+    isLoadingData.value = false;
+    nextTick();
+  });
 }
 
 async function updateInterface(lang) {
@@ -79,15 +85,13 @@ watch(dictionary, (newVal) => {
     });
   }
 }, { immediate: true });
-
-const isLoaded = computed(() => dictionary);
 </script>
 
 <template>
   <div class="d-flex w-1/2">
     <div class="card m-3 translator-body">
       <div class="card-body mt-3">
-        <div v-if="isLoaded">
+        <div v-if="!isLoadingData">
           <h2>
             <span class="text-4xl font-bold">{{ interfaceText.value.headline }}&nbsp;</span>
             <span class="text-xl italic">{{ interfaceText.value.headline_small }}</span>
@@ -124,13 +128,13 @@ const isLoaded = computed(() => dictionary);
       </div>
     </div>
     <TranslatorMeta
-      v-if="isLoaded"
+      v-if="!isLoadingData"
       :interface-text=interfaceText
       class="mt-6"
       :metadata="metadata"
     />
     <div class="card mt-6">
-      <Disqus v-if="isLoaded"/>
+      <Disqus v-if="!isLoadingData"/>
     </div>
   </div>
 </template>
