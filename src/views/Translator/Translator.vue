@@ -1,5 +1,5 @@
 <script setup>
-import {computed, nextTick, reactive, ref, watch} from 'vue';
+import {computed, nextTick, onMounted, reactive, ref, watch, watchEffect} from 'vue';
 import TranslatorMeta from "@/components/Translator/TranslatorMeta.vue";
 import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
 import {useRoute} from "vue-router";
@@ -17,6 +17,7 @@ const interfaceText = reactive({
 
 const route = useRoute();
 
+const hash = ref(route.hash);
 const dynamicSegment = ref(route.params.dynamicSegment || DEFAULT_TRANSLATOR_LANG);
 
 function update(lang) {
@@ -61,6 +62,7 @@ function navigateToAnchorsLetter(id) {
   const letter = document.getElementById(id).closest('.letter-wrapper');
   if (letter) {
     history.pushState(null, null, `#${id}`);
+    hash.value = id;
     window.scrollTo({
       top: letter.offsetTop,
       behavior: 'smooth'
@@ -98,6 +100,7 @@ const isLoaded = computed(() => dictionary);
               <span
                 class="font-bold hover:underline hover:cursor-default selectable-span"
                 :id="info.word_key"
+                :class="{ 'highlight': hash === info.word_key }"
                 @click="navigateToAnchorsLetter(info.word_key)"
               >
                 {{theWord}}
@@ -142,6 +145,9 @@ const isLoaded = computed(() => dictionary);
 }
 .selectable-span {
   position: relative;
+}
+.highlight {
+  color: var(--color-highlight-text);
 }
 .selectable-span:hover::before {
   position: absolute;
