@@ -9,7 +9,7 @@ import {useRoute} from "vue-router";
 (function() { // DON'T EDIT BELOW THIS LINE
   var d = document, s = d.createElement('script');
   s.src = 'https://daniilorain.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
+  s.setAttribute('onload', () => console.log('loaded'));
   (d.head || d.body).appendChild(s);
 })();
 

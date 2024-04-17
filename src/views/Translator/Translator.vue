@@ -1,5 +1,5 @@
 <script setup>
-import {nextTick, reactive, ref, watch} from 'vue';
+import {computed, nextTick, reactive, ref, watch} from 'vue';
 import TranslatorMeta from "@/components/Translator/TranslatorMeta.vue";
 import ValuesWrapper from "@/components/Translator/ValuesWrapper.vue";
 import {useRoute} from "vue-router";
@@ -77,13 +77,15 @@ watch(dictionary, (newVal) => {
     });
   }
 }, { immediate: true });
+
+const isLoaded = computed(() => dictionary);
 </script>
 
 <template>
-  <div class="d-flex">
+  <div class="d-flex w-1/2">
     <div class="card m-3 translator-body">
       <div class="card-body mt-3">
-        <div v-if="dictionary && interfaceText">
+        <div v-if="isLoaded">
           <h2>
             <span class="text-4xl font-bold">{{ interfaceText.value.headline }}&nbsp;</span>
             <span class="text-xl italic">{{ interfaceText.value.headline_small }}</span>
@@ -111,18 +113,21 @@ watch(dictionary, (newVal) => {
             </ul>
           </div>
         </div>
-        <div v-if="!dictionary" class="text-center">
-          <div class="spinner-border spinner-border-sm"></div>
+        <div v-else class="text-center">
+          <div class="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
       </div>
     </div>
     <TranslatorMeta
+      v-if="isLoaded"
       :interface-text=interfaceText
       class="mt-6"
       :metadata="metadata"
     />
     <div class="card mt-6">
-      <Disqus/>
+      <Disqus v-if="isLoaded"/>
     </div>
   </div>
 </template>
@@ -130,6 +135,7 @@ watch(dictionary, (newVal) => {
 <style scoped>
 .translator-body {
   margin-top: 6rem;
+  width: 100%;
 }
 .dictionary-wrapper {
   margin-top: 3rem;
