@@ -104,7 +104,7 @@ watch(dictionary, (newVal) => {
 </script>
 
 <template>
-  <div class="d-flex w-1/2">
+  <div class="d-flex w-full lg:w-1/2">
     <div class="card m-3 translator-body">
       <div class="card-body mt-3">
         <div v-if="isError">
