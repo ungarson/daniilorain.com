@@ -22,6 +22,11 @@ const router = createRouter({
       name: 'translator',
       component: () => import('../views/Translator/Translator.vue')
     },
+    {
+      path: '/datalab',
+      name: 'datalab',
+      component: () => import('../views/DataLab/DataLab.vue'),
+    }
   ]
 })
 
